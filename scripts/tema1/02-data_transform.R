@@ -2,9 +2,14 @@ library(tidyverse)
 library(nycflights13)
 
 
-nycflights13::flights
+tt<-nycflights13::flights
 ?flights
 View(flights)
+?tibble
+
+head(flights)
+tail(flights)
+
 #tibble es un data frame mejorado para tidyverse
 ## * int -> números enteros
 ## * dbl -> números reales (double)
@@ -28,6 +33,9 @@ View(flights)
 
 ### FILTER
 jan1 <- filter(flights, month == 1, day == 1)
+flights %>% 
+  filter(month == 1, day == 1) %>%
+  filter(dep_delay>0)
 
 may19 <- filter(flights, month == 5, day == 19)
 
@@ -39,7 +47,9 @@ filter(flights, month == 5)
 2 == 2
 
 sqrt(2)^2 == 2
+sqrt(2)^2 - 2
 near(sqrt(2)^2, 2)
+?near
 1/pi * pi == 1
 1/49 * 49 == 1
 near(1/49*49, 1)
@@ -49,7 +59,7 @@ filter(flights, month == 5 | month == 6)
 filter(flights, month == 5 | 6)# NO FUNCIONA...
 
 may_june <- filter(flights, month %in% c(5,6))
-
+#LEYES DE MORGAN
 #!(x&y) == (!x)|(!y)
 #!(x|y) == (!x)&(!y)
 
@@ -73,6 +83,7 @@ age.mery == age.john
 is.na(age.mery)
 
 df <- tibble(x = c(1,2,NA,4,5))
+df
 filter(df, x>2)
 filter(df, is.na(x)|x>2)
 
@@ -110,6 +121,8 @@ tail(flights, 10)
 
 ### ARRANGE
 sorted_date <- arrange(flights, year, month, day)
+flights %>% arrange(year, month, day)
+tail(flights)
 tail(sorted_date)
 
 head(arrange(flights, desc(arr_delay)))
@@ -126,7 +139,7 @@ View(arrange(flights, desc(distance)))
 
 ### SELECT
 
-View(sorted_date[1024:1068,])
+View(sorted_date[1024:1068,TRUE])
 
 View(select(sorted_date[1024:1068,], dep_delay, arr_delay))
 
@@ -149,12 +162,11 @@ select(flights, num_range("x",1:5))# x1, x2, x3, x4, x5
 ?select
 
 rename(flights, deptime = dep_time, 
-       año = year, mes = month, dia = day)
+       anio = year, mes = month, dia = day)
 
 select(flights, deptime = dep_time)
 
 select(flights, time_hour, distance, air_time, everything())
-
 
 
 sorted_date
@@ -199,6 +211,8 @@ flights_new <- select(flights,
                       distance, 
                       air_time)
 
+flights_new
+
 mutate(flights_new,
        time_gain = arr_delay - dep_delay,    #diff_t (min)
        air_time_hour = air_time/60,
@@ -206,6 +220,14 @@ mutate(flights_new,
        time_gain_per_hour = time_gain / air_time_hour
        ) -> flights_new
      
+View(flights_new)
+
+flights_new %>%
+  filter(!is.na(time_gain_per_hour)) %>%
+  ggplot() + 
+  geom_histogram(mapping = aes(x=time_gain_per_hour),
+                 bins = 300)
+
 
 transmute(flights_new,
           time_gain = arr_delay - dep_delay,
@@ -229,7 +251,7 @@ transmute(flights,
 # * Offsets: lead()->mueve hacia la izquierda, lag()->mueve hacia la derecha
 df <- 1:12
 df
-lag(df)
+lag(df,4)
 lead(df)
 # * Funcions acumulativas: cumsum(), cumprod(), cummin(), cummax(), cummean()
 df
@@ -302,15 +324,24 @@ arrange(mutate(flights,
 
 summarise(flights, delay = mean(dep_delay, na.rm = T))
 
-by_month_group <- group_by(flights, year, month)
-summarise(by_month_group, delay = mean(dep_delay, na.rm = T))
+flights %>%
+  group_by(year, month) %>%
+  summarise(delay = mean(dep_delay, na.rm = T))
 
-by_day_group <- group_by(flights, year, month, day)
-summarise(by_day_group, 
+flights %>%
+  group_by(year, month, day) %>%
+  summarise(
           delay = mean(dep_delay, na.rm = T),
           median = median(dep_delay, na.rm = T),
           min = min(dep_delay, na.rm = T)
           )
+
+flights %>%
+  group_by(carrier) %>%
+  summarise(
+    delay = mean(dep_delay, na.rm = T),
+    num = n()
+    ) 
 
 mutate(summarise(group_by(flights, carrier),
           delay = mean(dep_delay, na.rm = T)),
@@ -364,8 +395,10 @@ flights %>%
             median = median(dep_delay, na.rm = T),
             sd = sd(dep_delay, na.rm = T),
             count = n()
-  )
+  ) 
 
+not_cancelled <- flights %>%
+  filter(!is.na(dep_delay), !is.na(arr_delay))
 
 delay_numtail <- not_cancelled %>%
   group_by(tailnum) %>%
@@ -454,6 +487,7 @@ not_cancelled %>%
 # Medida de posición 
 not_cancelled %>%
   group_by(carrier) %>%
+  arrange(dep_time) %>%
   summarise(
     first_dep = first(dep_time),
     second_dep = nth(dep_time, 2),
@@ -467,6 +501,7 @@ not_cancelled %>%
   mutate(rank = min_rank(dep_time)) %>%
   filter(rank %in% range(rank)) -> temp
 
+View(temp)
 
 # Funciones de conteo
 flights %>%
@@ -474,7 +509,8 @@ flights %>%
   summarise(
     count = n(),
     carriers = n_distinct(carrier),
-    arrivals = sum(!is.na(arr_delay))
+    arrivals = sum(!is.na(arr_delay)),
+    cancelled = count - arrivals
   ) %>%
   arrange(desc(carriers))
 
@@ -504,6 +540,8 @@ business <- group_by(flights, carrier, dest, origin)
 summarise(business, n_fl = n()) %>%
   summarise(n_fl = sum(n_fl)) %>%
   summarise(n_fl = sum(n_fl)) 
+
+business
 
 business %>%
   ungroup() %>%

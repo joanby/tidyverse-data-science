@@ -32,14 +32,22 @@ diamonds %>%
   count(cut_width(carat, 0.5))
 
 
+ggplot(diamonds, mapping = aes(x = "Kilates", y = carat)) + 
+  geom_boxplot()
+
+diamonds %>%
+  ggplot() + 
+  geom_boxplot(mapping = aes(x = cut, y = carat, color = cut))
+
 diamonds_filter <- diamonds %>%
   filter(carat<3)
 
 ggplot(data = diamonds_filter) + 
   geom_histogram(mapping = aes(x = carat), binwidth = 0.01)
 
-ggplot(data = diamonds_filter, mapping = aes(x = carat, color = cut))+
-  geom_freqpoly(binwidth = 0.1)
+ggplot(data = diamonds_filter, 
+       mapping = aes(x = carat, color = cut))+
+  geom_freqpoly(binwidth = 0.01)
 
 # * Cuales son los valores más comunes? Por qué?
 # * Cuales son los valores más raros? Por qué? Cumple con lo que esperábamos?
@@ -57,9 +65,19 @@ ggplot(data = faithful, mapping = aes(x = eruptions)) +
   geom_histogram(binwidth = 0.2)
 
 # outliers
-ggplot(diamonds) + 
-  geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
+  ggplot(diamonds) + 
+    geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
   coord_cartesian(ylim = c(0,100))
+
+diamonds %>%
+  ggplot(mapping=aes(x = price)) + 
+  geom_histogram(binwidth = 100)
+
+diamonds %>%
+  filter(price > 18000) %>%
+  ggplot(mapping = aes(x = y))+
+  geom_histogram()
+
 
 unusual_diamonds <- diamonds %>%
   filter(y<2 | y >30) %>%
@@ -77,7 +95,8 @@ good_diamonds <- diamonds %>%
 
 ?ifelse  
 
-ggplot(data = good_diamonds, mapping = aes(x = x, y = y)) + 
+ggplot(data = good_diamonds, 
+       mapping = aes(x = x, y = y)) + 
   geom_point(na.rm = T)
 
 nycflights13::flights %>%
@@ -139,13 +158,13 @@ ggplot(good_diamonds) +
 # Categoría vs Contínua
 
 ggplot(data = diamonds, mapping = aes(x = price)) + 
-  geom_freqpoly(mapping = aes(color = cut), binwidth = 500)
+  geom_freqpoly(mapping = aes(color = cut), binwidth = 50)
 
 ggplot(diamonds) + 
   geom_bar(mapping = aes(x = cut))
 
 ggplot(data = diamonds, mapping = aes(x = price, y = ..density..)) +
-  geom_freqpoly(mapping = aes(color = cut), binwidth = 500)
+  geom_freqpoly(mapping = aes(color = cut), binwidth = 100)
 
 ggplot(data = diamonds, mapping = aes(x = cut, y = price)) + 
   geom_boxplot()
@@ -182,7 +201,8 @@ diamonds %>%
 # Contínua vs Contínua
 
 ggplot(data = diamonds) + 
-  geom_point(mapping = aes(x = carat, y = price), alpha = 0.01)
+  geom_point(mapping = aes(x = carat, y = price), 
+             alpha = 0.01)
 
 install.packages("hexbin")
 library(hexbin)

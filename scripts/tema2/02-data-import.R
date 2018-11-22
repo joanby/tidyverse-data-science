@@ -32,6 +32,7 @@ read_csv("Este fichero fue generado por Juan Gabriel
          4,5,6", skip = 3)
 
 read_csv("#Esto es un comentario
+#Me aburro en clase del master...
          x,y,z
          1,2,3
          4,5,6", comment = "#")

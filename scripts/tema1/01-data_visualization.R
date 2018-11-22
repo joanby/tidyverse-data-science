@@ -1,5 +1,6 @@
 #Data Visualization - 11 de Mayo de 2018
 library(tidyverse)
+
 #tidyverse 1.2.1 ──
 #✔ ggplot2 2.2.1     ✔ purrr   0.2.4
 #✔ tibble  1.4.2     ✔ dplyr   0.7.4
@@ -16,12 +17,22 @@ View(mpg)
 # displ: tamaño del motor del coche en litros
 # hwy: número de millas recorridas en autopista por galón de combustible (3.785411784 litros)
 
+ggplot(data = mpg)
+
+mpg %>% ggplot()
+
+
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy))
 
 #PLANTILLA PARA HACER UNA REPRESENTACIÓN GRÁFICA CON GGPLOT
 #ggplot(data = <DATA_FRAME>) +
 #  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = class, y = drv))
+
+
 
 #Color de los puntos
 ggplot(data = mpg) +
@@ -54,7 +65,7 @@ ggplot() +
   scale_y_continuous(name="") +
   scale_x_continuous(name="") +
   scale_shape_identity() +
-  geom_point(data=d, mapping=aes(x=p%%16, y=p%/%16, shape=p), size=5, fill="red") +
+  geom_point(data=d, mapping=aes(x=p%%16, y=p%/%16, shape=p), size=5, fill="yellow") +
   geom_text(data=d, mapping=aes(x=p%%16, y=p%/%16+0.25, label=p), size=3)
 
 
@@ -62,7 +73,10 @@ ggplot() +
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy), 
              shape = 23, size = 10, color = "red", 
-             fill = "yellow")
+             fill = 'yellow')
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x=displ, y = hwy, color = displ<5))
 
 
 ##FACETS

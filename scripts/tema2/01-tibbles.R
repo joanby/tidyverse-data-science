@@ -13,6 +13,7 @@ t <- tibble(
   z = y * x ^ 2
 )
 
+View(t)
 t[2,3]
 
 t2 <- tibble(
@@ -21,7 +22,7 @@ t2 <- tibble(
   `1988` = "number"
 )
 
-t2
+t2$`:)`
 
 tribble(
   ~x, ~y, ~z,
