@@ -32,7 +32,6 @@ read_csv("Este fichero fue generado por Juan Gabriel
          4,5,6", skip = 3)
 
 read_csv("#Esto es un comentario
-#Me aburro en clase del master...
          x,y,z
          1,2,3
          4,5,6", comment = "#")
@@ -181,6 +180,8 @@ guess_parser(c("3,6,8,25"))
 guess_parser(c("TRUE", "FALSE","TRUE", "F", "T"))
 guess_parser(c("3", "6", "8", "25"))
 
+
+
 challenge <- read_csv(readr_example("challenge.csv"))
 problems(challenge)
 
@@ -201,7 +202,7 @@ challenge2
 
 challenge3 <- read_csv(readr_example("challenge.csv"),
                        col_types = cols(.default = col_character()))
-challenge3
+tail(challenge3)
 type_convert(challenge3)
 
 df <- tribble(

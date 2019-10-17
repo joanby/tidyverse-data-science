@@ -5,7 +5,9 @@ nycflights13::airlines
 airports
 planes
 weather
-flights
+colnames(flights)
+
+View(flights)
 
 planes %>%
   count(tailnum) %>%

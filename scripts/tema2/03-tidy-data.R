@@ -9,19 +9,19 @@ table %>%
 table %>%
   count(year, wt = cases)
 
-table %>%
+table1 %>%
   ggplot(aes(year, cases)) + 
   geom_line(aes(group = country), color = "grey") + 
   geom_point(aes(color = country))
 
 table4a %>%
-  gather(`1999`, `2000`, key = "year", value = "cases") -> tidy4a
+  gather(`1999`,`2000`, key = "year", value = "cases") -> tidy4a
 
 table4b %>%
   gather(`1999`, `2000`, key = "year", value = "population") -> tidy4b
 
-left_join(tidy4a, tidy4b)
-
+left_join(tidy4a, tidy4b) -> tidy4 
+ 
 
 table2 %>%
   spread(key = type, value = count)

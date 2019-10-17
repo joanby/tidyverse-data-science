@@ -41,6 +41,8 @@ tibble(
   e = sample(letters, 1e3, replace = T)
 )
 
+lubridate::today()
+
 nycflights13::flights %>%
   print(n = 12, width = Inf)
   
@@ -56,6 +58,7 @@ nycflights13::flights %>% #....
 # [['nombre_variable']]
 # [[posicion_variable]]
 # $nombre_variable
+
 df <- tibble(
   x = rnorm(10),
   y = runif(10)
@@ -66,6 +69,12 @@ df$y
 
 df %>% .$x
 df %>% .$y
+
+sapply(df, FUN = function(x) {
+  x+1
+  })
+
+?sapply
 
 df[["x"]]
 df[["y"]]
@@ -124,6 +133,7 @@ df %>%
   rename(x = `1`, 
          y = `2`,
          z = `3`) 
+
 
 #Ejercicio 5
 enframe(1:10)
