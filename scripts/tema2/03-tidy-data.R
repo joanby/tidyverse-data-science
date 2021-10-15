@@ -73,6 +73,23 @@ pregnancy %>%
   select(-sex)
 
 
+##PIVOTING
+
+tidy4a <- table4a %>%
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+
+tidy4b <- table4b %>%
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "population")
+
+left_join(tidy4a, tidy4b)
+
+
+table2 %>%
+  pivot_wider(names_from = type, values_from = count)
+
+
+## SEPARATE y UNITE
+
 
 table3 %>%
   separate(rate, into = c("cases", "population"), 

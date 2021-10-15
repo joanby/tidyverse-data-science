@@ -2,7 +2,13 @@
 title: "Mi primer markdown"
 author: "Juan Gabriel Gomila"
 date: "15/6/2018"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+params:
+  car_class: "suv"
+  start: !r lubridate::ymd("2020-03-15")
+  end: !r lubridate::ymd_hms("2020-06-30 12:00:00")
 ---
 
 ```{r setup, include=FALSE}
@@ -120,3 +126,15 @@ knitr::kable(processed_data)
 ```
 
 El número pi es: $\pi =  `r beauty_number(pi)`$, y un número muy grande sería `r beauty_number(123456.789)` y un número con muchos decimales `r beauty_number(0.125678)`
+
+
+## Uso de los parámetros en `YAML`.
+
+```{r}
+mpg %>% filter(class == params$car_class) %>%
+  ggplot(aes(displ, hwy)) + 
+  geom_point() +
+  geom_smooth(se = FALSE)
+```
+
+El inicio de la pandemia ocurrió en `r params$start` y terminó en `r params$end`.
