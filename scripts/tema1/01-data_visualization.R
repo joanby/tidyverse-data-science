@@ -10,7 +10,7 @@ library(tidyverse)
 #Los coches con motor más grande consumen más combustible 
 #que los coches con motor más pequeño.
 #La relación consumo / tamaño es lineal? Es no lineal? Es exponencial?
-#Es positiva? Es negativa?
+#Es positiva? Es negativa??
 
 View(mpg)
 ?mpg #help(mpg)
