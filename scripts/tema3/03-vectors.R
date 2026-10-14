@@ -83,7 +83,7 @@ typeof(c(1.6, "a"))
 is_logical(c(T,T,T))            #lgl
 is_integer(c(1L,2L,3L,4L))      #int
 is_double(c(1,2,3,4))           #dbl
-is_numeric(c(1,2,3,4L))         #int, dbl
+is.numeric(c(1,2,3,4L))         #int, dbl
 is_character(c("a","b", "c"))   #chr
 is_atomic(c(T,T, 1,2L, "a"))    #lgl, int, dbl, chr
 

@@ -223,10 +223,10 @@ read_file(readr_example("challenge.csv"))
 # date /datetimes ISO8601
 # write_excel_csv()
 
-write_csv(challenge, path = "data/challenge.csv")
+write_csv(challenge, file = "data/challenge.csv")
 read_csv("data/challenge.csv", guess_max = 1001)
 
-write_rds(challenge, path = "data/challenge.rds")
+write_rds(challenge, file = "data/challenge.rds")
 read_rds("data/challenge.rds")
 
 library(feather)

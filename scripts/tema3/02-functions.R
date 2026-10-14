@@ -111,6 +111,8 @@ has_name(tribble(
    1,  2,   3
 ))
 
+# Actualización 2026: en el vídeo esto da un aviso; desde R 4.2 es un error (la condición de un if
+# tiene que ser un único TRUE/FALSE). Usa any() o all() si quieres comprobar un vector.
 if(c(T,F)){}
 
 if(NA){}
